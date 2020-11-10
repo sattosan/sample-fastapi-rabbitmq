@@ -1,0 +1,30 @@
+version: '3.0'
+
+services:
+  # FastAPI
+  producer:
+    container_name: producer
+    build: ./producer
+    restart: always
+    tty: true
+    ports:
+      - 8000:8000
+  # Python Client
+  consumer:
+    container_name: consumer
+    build: ./consumer
+  # RabbitMQ
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    tty: true
+    image: rabbitmq:3.8.9-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+#    データの永続化が必要な場合は以下をアンコメント
+#    volumes:
+#      - rabbitmq-data:/var/lib/rabbitmq
+#
+#volumes:
+#  rabbitmq-data:
